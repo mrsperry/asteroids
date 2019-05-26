@@ -1,6 +1,6 @@
 class asteroid extends projectile {
     constructor(position, target) {
-        super(allegiance.neutral, position, target);
+        super(faction.neutral, position, target);
 
         this.bounds = {
             position: this.position,

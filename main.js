@@ -60,8 +60,8 @@ function draw() {
         text("Asteroids: " + projectile_manager.asteroids.length, 2, 27);
         // number of lasers
         text("Lasers: "  + projectile_manager.lasers.length, 2, 42);
-        // number of aliens
-        text("Aliens: " + ship_manager.aliens.length, 2, 57);
+        // number of ships
+        text("Ships: " + ship_manager.ships.length, 2, 57);
     }
 }
 

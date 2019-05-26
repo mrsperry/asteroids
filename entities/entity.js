@@ -1,3 +1,11 @@
+// global faction enum
+var faction = {
+    neutral: 0,
+    friendly: 1,
+    enemy: 2
+}
+
+
 class entity {
     constructor(faction, position) {
         this.faction = faction;
@@ -80,7 +88,7 @@ class entity {
     destroy() {
         this.destroyed = true;
 
-        // create the alien explosion
+        // create the death explosion
         this.explosion = [];
         for (let index = 0; index < round(random(5, 15)); index++) {
             // set global piece arguments

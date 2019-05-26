@@ -2,29 +2,29 @@ class ship_manager {
     static setup() {
         this.player = new player(main.x, main.y);
 
-        this.aliens = [];
+        this.ships = [];
     }
 
     static update() {
-        // create aliens randomly
-        if (this.aliens.length < 5 && round(random(0, 10)) == 0) {
+        // create ships randomly
+        if (this.ships.length < 5 && round(random(0, 10)) == 0) {
             let position = utils.get_random_location();
-            this.aliens.push(new alien(position.x, position.y));
+            this.ships.push(new corvette(faction.neutral, position.x, position.y));
         }
 
         // update the player
         this.player.update();
 
-        // update the aliens
-        for (let alien of this.aliens) {
-            alien.update();
+        // update the ships
+        for (let ship of this.ships) {
+            ship.update();
         }
     }
 
     static draw() {
-        // draw the aliens
-        for (let alien of this.aliens) {
-            alien.draw();
+        // draw the ships
+        for (let ship of this.ships) {
+            ship.draw();
         }
 
         // draw the player

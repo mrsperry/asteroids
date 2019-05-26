@@ -1,10 +1,3 @@
-// global allegiance enum
-var allegiance = {
-    neutral: 0,
-    friendly: 1,
-    enemy: 2
-}
-
 class projectile_manager {
     static setup() {
         this.lasers = [];
@@ -25,12 +18,11 @@ class projectile_manager {
                 }
 
                 // check if a projectile hit an enemy
-                if (projectile.faction == allegiance.friendly
-                    || projectile.faction == allegiance.neutral) {
-                    for (let alien of ship_manager.aliens) {
-                        if (!alien.destroyed && !projectile.destroyed) {
-                            if (utils.collision(alien, projectile)) {
-                                alien.destroy();
+                for (let ship of ship_manager.ships) {
+                    if (projectile.faction != ship.faction) {
+                        if (!ship.destroyed && !projectile.destroyed) {
+                            if (utils.collision(ship, projectile)) {
+                                ship.destroy();
                                 projectile.destroy();
                             }
                         }
@@ -38,13 +30,13 @@ class projectile_manager {
                 }
 
                 // check if a projectile hit the player
-                if (projectile.faction == allegiance.enemy
-                    || projectile.faction == allegiance.neutral) {
+                if (projectile.faction == faction.enemy
+                    || projectile.faction == faction.neutral) {
                     if (!projectile.destroyed) {
                         if (utils.collision(ship_manager.player, projectile)) {
                             // reset the player
                             ship_manager.player = new player(main.x, main.y);
-                            ship_manager.aliens = [];
+                            ship_manager.ships = [];
                             projectile_manager.asteroids = [];
                             projectile_manager.lasers = [];
                         }

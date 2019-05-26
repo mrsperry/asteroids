@@ -1,6 +1,6 @@
 class player extends ship {
     constructor(x, y) {
-        super(allegiance.friendly, 7, createVector(x, y));
+        super(faction.friendly, 7, createVector(x, y));
     }
 
     update() {

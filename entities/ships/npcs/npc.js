@@ -1,6 +1,6 @@
-class alien extends ship {
-    constructor(x, y) {
-        super(allegiance.enemy, round(random(50, 150)), createVector(x, y));
+class npc extends ship {
+    constructor(faction, weapon_cooldown, position) {
+        super(faction, weapon_cooldown, position);
 
         this.target = this.get_random_location();
     }
@@ -16,7 +16,7 @@ class alien extends ship {
             // apply the force
             this.apply_force(this.rotation.copy().mult(0.02));
 
-            // get a new target if the alien has reached its current target
+            // get a new target if the ship has reached its current target
             if (this.position.dist(this.target) < 50) {
                 this.target = this.get_random_location();
             }
@@ -27,10 +27,10 @@ class alien extends ship {
         super.update();
         this.rotation_velocity = 0;
 
-        // remove the alien if it's too far away from the player
+        // remove the ship if it's too far away from the player
         let position = ship_manager.player.position;
         if (this.remove || this.position.dist(position) > 2000) {
-            ship_manager.aliens.splice(ship_manager.aliens.indexOf(this), 1);
+            ship_manager.ships.splice(ship_manager.ships.indexOf(this), 1);
         }
     }
 
@@ -44,7 +44,11 @@ class alien extends ship {
                 this.position.y);
         }
 
-        super.draw(200, 30, 30);
+        if (this.faction == faction.enemy) {
+            super.draw(200, 30, 30);
+        } else {
+            super.draw(200, 200, 200);
+        }
     }
 
     // gets a random location near the player

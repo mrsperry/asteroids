@@ -21,7 +21,7 @@ class laser extends projectile {
     }
 
     draw() {
-        if (this.faction == allegiance.friendly) {
+        if (this.faction == faction.friendly) {
             // friendly lasers are blue
             stroke(100, 160, 240);
         } else {
