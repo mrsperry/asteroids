@@ -68,7 +68,7 @@ class ship extends entity {
                 line(0, 0, -30, 1);
                 noStroke();
             }
-            triangle(10, 0, -10, -10, -10, 10);
+            triangle(7, 0, -7, -7, -7, 7);
             pop();
         }
 

@@ -4,8 +4,8 @@ class asteroid extends projectile {
 
         this.bounds = {
             position: this.position,
-            width: 20,
-            height: 20
+            width: 10,
+            height: 10
         };
 
         // set a constant force
