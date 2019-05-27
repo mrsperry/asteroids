@@ -44,6 +44,17 @@ class player extends ship {
     }
 
     draw() {
-        super.draw(40, 40, 200);
+        let current_color = color(40, 40, 200);
+        super.draw(current_color);
+
+        if (!this.destroyed) {
+            fill(current_color);
+            noStroke();
+            push();
+            translate(this.position.x, this.position.y);
+            rotate(this.rotation.heading());
+            triangle(7, 0, -7, -7, -7, 7);
+            pop();
+        }
     }
 }

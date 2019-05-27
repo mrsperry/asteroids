@@ -50,11 +50,11 @@ class entity {
         }
     }
 
-    draw(r, g, b) {
+    draw(color) {
         // draw the explosion if there is one
         for (let particle of this.explosion) {
             noStroke();
-            fill(r, g, b, particle.opacity);
+            fill(red(color), green(color), blue(color), particle.opacity);
 
             // draw the particle
             push();
@@ -67,7 +67,7 @@ class entity {
             } else if (particle.type == 1) {
                 rect(0, 0, particle.size, particle.size);
             } else {
-                stroke(r, g, b, particle.opacity);
+                stroke(red(color), green(color), blue(color), particle.opacity);
                 line(0, 0, particle.size, 0);
             }
             pop();

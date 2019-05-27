@@ -9,7 +9,7 @@ class projectile extends entity {
         super.update();
     }
 
-    draw(r, g, b) {
-        super.draw(r, g, b);
+    draw(color) {
+        super.draw(color);
     }
 }

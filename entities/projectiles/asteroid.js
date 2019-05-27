@@ -31,6 +31,7 @@ class asteroid extends projectile {
     }
 
     draw() {
+        let current_color = color(70, 60, 40);
         if (!this.destroyed) {
             // create the asteroids path
             if (main.debug) {
@@ -43,7 +44,7 @@ class asteroid extends projectile {
             }
 
             noStroke();
-            fill(70, 60, 40);
+            fill(current_color);
 
             // draw the asteroid
             push();
@@ -53,6 +54,6 @@ class asteroid extends projectile {
             pop();
         }
 
-        super.draw(70, 60, 40);
+        super.draw(current_color);
     }
 }

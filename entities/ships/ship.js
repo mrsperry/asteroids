@@ -7,11 +7,13 @@ class ship extends entity {
 
         this.trail = [];
 
-        this.bounds = {
-            position: this.position,
-            width: 20,
-            height: 20
-        };
+        if (this.bounds != null) {
+            this.bounds.position = position;
+        } else {
+            this.bounds = {
+                position: position
+            };
+        }
     }
 
     update() {
@@ -41,7 +43,7 @@ class ship extends entity {
         super.update();
     }
 
-    draw(r, g, b) {
+    draw(color) {
         noFill();
         noStroke();
 
@@ -56,23 +58,18 @@ class ship extends entity {
                 circle(bubble.position.x, bubble.position.y, bubble.size);
             }
 
-            // draw the ship
-            fill(r, g, b);
-            noStroke();
-            push();
-            translate(this.position.x, this.position.y);
-            rotate(this.rotation.heading());
-            // draw a line indicating -rotation
             if (main.debug) {
+                push();
+                translate(this.position.x, this.position.y);
+                rotate(this.rotation.heading());
+                // draw a line indicating -rotation
                 stroke(255, 0, 0);
                 line(0, 0, -30, 1);
-                noStroke();
+                pop();
             }
-            triangle(7, 0, -7, -7, -7, 7);
-            pop();
         }
 
-        super.draw(r, g, b);
+        super.draw(color);
     }
 
     move() {

@@ -34,7 +34,7 @@ class npc extends ship {
         }
     }
 
-    draw() {
+    draw(color) {
         // draw the pathing line
         if (main.debug && !this.destroyed) {
             stroke(235, 65, 235, 100);
@@ -44,11 +44,7 @@ class npc extends ship {
                 this.position.y);
         }
 
-        if (this.faction == faction.enemy) {
-            super.draw(200, 30, 30);
-        } else {
-            super.draw(200, 200, 200);
-        }
+        super.draw(color);
     }
 
     // gets a random location near the player
@@ -57,5 +53,15 @@ class npc extends ship {
         return createVector(
             position.x + ((random() - 0.5) * 300),
             position.y + ((random() - 0.5) * 300));
+    }
+
+    static get_color(faction) {
+        if (this.faction == faction.enemy) {
+            return color(200, 30, 30);
+        } else if (this.faction == faction.neutral) {
+            return color(200);
+        } else {
+            return color(200, 200, 200);
+        }
     }
 }
