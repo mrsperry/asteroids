@@ -9,7 +9,7 @@ class laser extends projectile {
         super(faction, position, target);
 
         this.type = type;
-        this.limit = 20;
+        this.limit = this.type == laser_type.light ? 20 : 4;
 
         this.bounds = {
             position: this.position,
