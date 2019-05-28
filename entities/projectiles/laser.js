@@ -1,12 +1,20 @@
+// global laser type enum
+var laser_type = {
+    light: 0,
+    heavy: 1
+};
+
 class laser extends projectile {
-    constructor(faction, position, target) {
+    constructor(faction, type, position, target) {
         super(faction, position, target);
 
+        this.type = type;
         this.limit = 20;
+
         this.bounds = {
             position: this.position,
             width: 20,
-            height: 0
+            height: this.type == laser_type.light ? 0 : 20
         };
     }
 
@@ -38,7 +46,7 @@ class laser extends projectile {
         // rotate line based on the ship direction
         rotate(this.target.heading());
         // draw the laser
-        line(0, 0, this.bounds.width, this.bounds.height);
+        rect(0, 0, this.bounds.width, this.bounds.height);
         pop();
     }
 }

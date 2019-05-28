@@ -7,8 +7,6 @@ class npc extends ship {
 
     update() {
         if (!this.destroyed) {
-            super.fire();
-
             // get the angle the ship needs to move this cycle
             this.difference = this.target.copy().sub(this.position);
             let angle = (this.difference.heading() - this.rotation.heading()) + 180;

@@ -8,6 +8,14 @@ class corvette extends npc {
         };
     }
 
+    update() {
+        if (!this.destroyed) {
+            super.fire();
+        }
+
+        super.update();
+    }
+
     draw() {
         let current_color = npc.get_color(this.faction);
         super.draw(current_color);

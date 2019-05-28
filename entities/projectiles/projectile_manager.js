@@ -84,8 +84,8 @@ class projectile_manager {
         }
     }
 
-    static create_laser(faction, position, target) {
-        this.lasers.push(new laser(faction, position, target));
+    static create_laser(faction, type, position, target) {
+        this.lasers.push(new laser(faction, type, position, target));
     }
 
     static create_asteroid() {

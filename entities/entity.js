@@ -3,8 +3,7 @@ var faction = {
     neutral: 0,
     friendly: 1,
     enemy: 2
-}
-
+};
 
 class entity {
     constructor(faction, position) {

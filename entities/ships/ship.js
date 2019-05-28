@@ -90,7 +90,11 @@ class ship extends entity {
             this.weapon_cooldown = this.cooldown;
             
             // create a new laser
-            projectile_manager.create_laser(this.faction, this.position.copy(), this.rotation.copy());
+            projectile_manager.create_laser(
+                this.faction,
+                laser_type.light,
+                this.position.copy(), 
+                this.rotation.copy());
         }
     }
 }
