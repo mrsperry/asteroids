@@ -9,7 +9,13 @@ class ship_manager {
         // create ships randomly
         if (this.ships.length < 5 && round(random(0, 10)) == 0) {
             let position = utils.get_random_location();
-            this.ships.push(new corvette(faction.neutral, position.x, position.y));
+
+            let ship = new corvette(faction.neutral, position.x, position.y);
+            if (round(random(0, 5)) == 0) {
+                ship = new frigate(faction.neutral, position.x, position.y);
+            }
+
+            this.ships.push(ship);
         }
 
         // update the player
