@@ -76,12 +76,14 @@ class ship extends entity {
         super.move();
 
         // create a trail
-        this.trail.push({
-            position: this.position.copy(),
-            velocity: this.rotation.copy().mult(10).mult(-1).add(random(-3, 3), random(-3, 3)),
-            size: 0,
-            opacity: 255
-        });
+        if (frameCount % 2 == 0) {
+            this.trail.push({
+                position: this.position.copy(),
+                velocity: this.rotation.copy().mult(10).mult(-1).add(random(-3, 3), random(-3, 3)),
+                size: 0,
+                opacity: 255
+            });
+        }
     }
 
     fire() {
