@@ -9,9 +9,11 @@ class main {
 
         projectile_manager.setup();
         ship_manager.setup();
+        stars.setup();
     }
 
     static update() {
+        stars.update();
         projectile_manager.update();
         ship_manager.update();
 
@@ -20,6 +22,7 @@ class main {
     }
 
     static draw() {
+        stars.draw();
         projectile_manager.draw();
         ship_manager.draw();
     }
@@ -62,6 +65,8 @@ function draw() {
         text("Lasers: "  + projectile_manager.lasers.length, 2, 42);
         // number of ships
         text("Ships: " + ship_manager.ships.length, 2, 57);
+        // number of stars
+        text("Stars: " + main.stars.length, 2, 72);
     }
 }
 
