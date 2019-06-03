@@ -57,7 +57,6 @@ function draw() {
         stroke(0);
         fill(255);
         // current player position
-        let position = ship_manager.player.position;
         text("Position: (" + round(position.x) + ", " + round(position.y) + ")", 2, 12);
         // number of asteroids
         text("Asteroids: " + projectile_manager.asteroids.length, 2, 27);
