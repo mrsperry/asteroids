@@ -5,6 +5,7 @@ class ship extends entity {
         this.cooldown = cooldown;
         this.weapon_cooldown = 0;
 
+        this.speed_particles = [];
         this.trail = [];
 
         if (this.bounds != null) {
@@ -21,31 +22,34 @@ class ship extends entity {
         if (this.weapon_cooldown > 0) {
             this.weapon_cooldown--;
         }
+        
+        // handle speed particles
+        for (let particle of this.speed_particles.reverse()) {
+            particle.position.add(particle.velocity);
+            particle.opacity -= 5;
+
+            if (particle.opacity == 0) {
+                this.speed_particles.splice(this.speed_particles.indexOf(particle), 1);
+            }
+        }
 
         // handle trail
-        let removal = [];
-        for (let bubble of this.trail) {
+        for (let bubble of this.trail.reverse()) {
             bubble.position.add(bubble.velocity);
             bubble.velocity.mult(0.7);
             bubble.size += 0.1;
             bubble.opacity -= 5;
 
             if (bubble.opacity == 0) {
-                removal.push(bubble);
+                this.trail.splice(this.trail.indexOf(bubble), 1);
             }
         }
         
-        // remove excess bubbles
-        for (let bubble of removal.reverse()) {
-            this.trail.splice(this.trail.indexOf(bubble), 1);
-        }
-
         super.update();
     }
 
     draw(color) {
         noFill();
-        noStroke();
 
         if (!this.destroyed) {
             // draw the trail below the ship
@@ -53,7 +57,6 @@ class ship extends entity {
                 // set the bubble opacity
                 stroke(255, bubble.opacity);
 
-                noFill();
                 // draw the bubble
                 circle(bubble.position.x, bubble.position.y, bubble.size);
             }

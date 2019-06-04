@@ -6,14 +6,13 @@ class projectile_manager {
 
     static update() {
         let check_removal = (projectiles) => {
-            let removal = [];
             for (let projectile of projectiles) {
                 projectile.update();
 
                 // check if a projectile is out of bounds
                 let position = projectile.position;
                 if (position.dist(ship_manager.player.position) > 2000) {
-                    removal.push(projectile);
+                    projectiles.splice(projectiles.indexOf(projectile), 1);
                     continue;
                 }
 
@@ -42,11 +41,6 @@ class projectile_manager {
                         }
                     }
                 }
-            }
-
-            // remove out of bounds projectiles
-            for (let projectile of removal.reverse()) {
-                projectiles.splice(projectiles.indexOf(projectile), 1);
             }
 
             return projectiles;
