@@ -44,7 +44,7 @@ class ship extends entity {
                 this.trail.splice(this.trail.indexOf(bubble), 1);
             }
         }
-        
+
         super.update();
     }
 
@@ -98,7 +98,7 @@ class ship extends entity {
             projectile_manager.create_laser(
                 this.faction,
                 laser_type.light,
-                this.position.copy(), 
+                this.position.copy().add(15 * cos(this.rotation.heading()), 15 * sin(this.rotation.heading())), 
                 this.rotation.copy());
         }
     }
