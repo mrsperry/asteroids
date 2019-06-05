@@ -65,7 +65,7 @@ function draw() {
         // number of ships
         text("Ships: " + ship_manager.ships.length, 2, 57);
         // number of stars
-        text("Stars: " + main.stars.length, 2, 72);
+        text("Stars: " + stars.stars.length, 2, 72);
     }
 }
 
