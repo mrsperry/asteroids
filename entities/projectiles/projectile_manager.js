@@ -48,7 +48,7 @@ class projectile_manager {
 
         // create an asteroid if it isn't at the cap
         if (this.asteroids.length < 100) {
-            this.create_asteroid();
+            this.create_asteroid(utils.get_random_location(), round(random(1, 3)));
         }
 
         // check for removals
@@ -82,12 +82,14 @@ class projectile_manager {
         this.lasers.push(new laser(faction, type, position, target));
     }
 
-    static create_asteroid() {
+    static create_asteroid(position, size) {
         // gets a random target based on its location
-        let position = utils.get_random_location();
-        this.asteroids.push(new asteroid(position, createVector(
-            round(random(position.x - 200, position.x + 200)),
-            round(random(position.y - 200, position.y + 200))
-        )));
+        this.asteroids.push(new asteroid(
+            position,
+            // get a random size
+            size, 
+            createVector(
+                round(random(position.x - 200, position.x + 200)),
+                round(random(position.y - 200, position.y + 200)))));
     }
 }

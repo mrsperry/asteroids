@@ -1,11 +1,14 @@
 class asteroid extends projectile {
-    constructor(position, target) {
+    constructor(position, size, target) {
         super(faction.neutral, position, target);
 
+        this.size = size;
+
+        let dimensions = 10 * size;
         this.bounds = {
             position: this.position,
-            width: 10,
-            height: 10
+            width: dimensions,
+            height: dimensions
         };
 
         // set a constant force
@@ -24,6 +27,16 @@ class asteroid extends projectile {
 
         super.update();
         this.rotation_velocity = 0;
+
+        if (this.destroyed && !this.split) {
+            this.split = true;
+            if (this.size != 1) {
+                let amount = round(this.size == 3 ? random(1, 2) : random(2, 4));
+                for (let index = 0; index < amount; index++) {
+                    projectile_manager.create_asteroid(this.position.copy(), this.size - 1,);
+                }
+            }
+        }
 
         if (this.remove) {
             this.remove_instance(projectile_manager.asteroids, this);
