@@ -11,6 +11,15 @@ class utils {
             && target.position.y + target.height > missile.position.y;
     }
 
+    static check_bounds(position) {
+        // check if the position is outside the screen
+        let start = ship_manager.player.position.copy().sub(main.x, main.y);
+        return position.x < start.x
+            || position.x > start.x + width
+            || position.y < start.y
+            || position.y > start.y + height;
+    }
+
     // returns a random location outside the screen
     static get_random_location() {
         let x, y;

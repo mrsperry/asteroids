@@ -16,7 +16,7 @@ class stars {
     static draw() {
         for (let star of this.stars) {
             let levels = star.color.levels;
-            if (levels[3] < 0) {
+            if (levels[3] < 0 || utils.check_bounds(star.position)) {
                 this.stars.splice(this.stars.indexOf(star), 1);
                 continue;
             } else if (levels[3] >= star.max_opacity) {
