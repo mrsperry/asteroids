@@ -99,7 +99,7 @@ class ship extends entity {
                 this.faction,
                 laser_type.light,
                 this.position.copy().add(15 * cos(this.rotation.heading()), 15 * sin(this.rotation.heading())), 
-                this.rotation.copy());
+                this.rotation.copy().add(random(-0.025, 0.025), random(-0.025, 0.025)));
         }
     }
 }
