@@ -2,6 +2,17 @@ class projectile_manager {
     static setup() {
         this.lasers = [];
         this.asteroids = [];
+
+        // generate asteroids for the main menu
+        for (let index = 0; index < 25; index++) {
+            // make sure the asteroid is not near the menu bounds
+            let location;
+            do {
+                location = createVector(random(0, width), random(0, height));
+            } while (location.dist(main.main_menu.background.position) < 300);
+
+            this.create_asteroid(location, round(random(1, 3)));
+        }
     }
 
     static update() {
@@ -20,7 +31,7 @@ class projectile_manager {
                 for (let ship of ship_manager.ships) {
                     if (projectile.faction != ship.faction) {
                         if (!ship.destroyed && !projectile.destroyed) {
-                            if (utils.collision(ship, projectile)) {
+                            if (utils.check_collision(ship.bounds, projectile.bounds)) {
                                 ship.destroy();
                                 projectile.destroy();
                             }
@@ -32,12 +43,9 @@ class projectile_manager {
                 if (projectile.faction == faction.enemy
                     || projectile.faction == faction.neutral) {
                     if (!projectile.destroyed) {
-                        if (utils.collision(ship_manager.player, projectile)) {
-                            // reset the player
-                            ship_manager.player = new player(main.x, main.y);
-                            ship_manager.ships = [];
-                            projectile_manager.asteroids = [];
-                            projectile_manager.lasers = [];
+                        if (utils.check_collision(ship_manager.player.bounds, projectile.bounds)) {
+                            // reset all game objects
+                            main.reset();
                         }
                     }
                 }
@@ -55,13 +63,23 @@ class projectile_manager {
         this.lasers = check_removal(this.lasers);
         this.asteroids = check_removal(this.asteroids);
 
-        // check if lasers hit any asteroids
         for (let asteroid of this.asteroids) {
+            // check if lasers hit any asteroids
             for (let laser of this.lasers) {
                 if (!laser.destroyed && !asteroid.destroyed) {
-                    if (utils.collision(asteroid, laser)) {
+                    if (utils.check_collision(asteroid.bounds, laser.bounds)) {
                         asteroid.destroy();
                         laser.destroy();
+                    }
+                }
+            }
+
+            // check if asteroids are under the main menu
+            if (main.state == state.menu) {
+                let bounds = main.main_menu.background;
+                if (utils.check_collision(asteroid.bounds, bounds)) {
+                    if (!asteroid.destroyed) {
+                        asteroid.destroy();
                     }
                 }
             }

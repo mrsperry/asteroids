@@ -1,14 +1,11 @@
 class utils {
     // handles collision detection
-    static collision(entity, projectile) {
-        let target = entity.bounds;
-        let missile = projectile.bounds;
-
+    static check_collision(bounds_1, bounds_2) {
         // check if the projectile intersects the entity
-        return target.position.x < missile.position.x + missile.width
-            && target.position.x + target.width > missile.position.x
-            && target.position.y < missile.position.y + missile.height
-            && target.position.y + target.height > missile.position.y;
+        return bounds_1.position.x < bounds_2.position.x + bounds_2.width
+            && bounds_1.position.x + bounds_1.width > bounds_2.position.x
+            && bounds_1.position.y < bounds_2.position.y + bounds_2.height
+            && bounds_1.position.y + bounds_1.height > bounds_2.position.y;
     }
 
     static check_bounds(position) {

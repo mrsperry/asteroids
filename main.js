@@ -1,21 +1,39 @@
+// global game state enum
+var state = {
+    menu: 0,
+    paused: 1,
+    running: 2
+};
+
 class main {
     static setup() {
         // center of screen coordinates
         this.x = round(width / 2);
         this.y = round(height / 2);
 
+        // set the game state to the main menu
+        this.state = state.menu;
         // shows debug messages and pathing information
         this.debug = false;
 
-        projectile_manager.setup();
-        ship_manager.setup();
-        stars.setup();
+        this.main_menu = new main_menu();
+        this.paused_menu = new paused_menu();
+
+        this.reset();
     }
 
     static update() {
-        stars.update();
-        projectile_manager.update();
-        ship_manager.update();
+        if (this.state == state.running) {
+            stars.update();
+            projectile_manager.update();
+            ship_manager.update();
+        } else if (this.state == state.paused) {
+            this.paused_menu.update();
+        } else {
+            stars.update();
+            projectile_manager.update();
+            this.main_menu.update();
+        }
 
         // draw the scene
         this.draw();
@@ -24,7 +42,24 @@ class main {
     static draw() {
         stars.draw();
         projectile_manager.draw();
-        ship_manager.draw();
+
+        if (this.state == state.running) {
+            ship_manager.draw();
+        } else if (this.state == state.paused) {
+            ship_manager.draw();
+            this.paused_menu.draw();
+        } else {
+            this.main_menu.draw();
+        }
+    }
+
+    static reset() {
+        // reset projectiles
+        projectile_manager.setup();
+        // reset ships
+        ship_manager.setup();
+        // reset stars
+        stars.setup();
     }
 }
 
@@ -39,7 +74,6 @@ function setup() {
     rectMode(CENTER);
     angleMode(DEGREES);
     textFont("Consolas");
-    noCursor();
 }
 
 function draw() {
@@ -74,11 +108,31 @@ function keyPressed() {
     if (keyCode == CONTROL) {
         main.debug = !main.debug;
 
-        // show the cursor when in debug mode, hide otherwise
-        if (main.debug) {
+        // show the cursor when in debug mode or on a menu, hide otherwise
+        if (main.debug || main.state == state.menu || main.state == state.paused) {
             cursor();
         } else {
             noCursor();
+        }
+    }
+
+    // pause/unpause the game if escape is pressed
+    if (keyCode == 27) {
+        // make sure the game has actually started
+        if (main.state != state.menu) {
+            if (main.state == state.paused) {
+                main.state = state.running;
+
+                // hide if cursor if debug mode is not enabled
+                if (!main.debug) {
+                    noCursor();
+                }
+            } else {
+                main.state = state.paused;
+
+                // show the cursor
+                cursor();
+            }
         }
     }
 }
