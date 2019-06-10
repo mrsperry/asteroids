@@ -6,6 +6,7 @@ class asteroid extends projectile {
 
         this.dimensions = 10 * size;
         this.bounds = {
+            position: this.position.copy(),
             width: this.dimensions,
             height: this.dimensions
         };
