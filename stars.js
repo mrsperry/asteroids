@@ -9,7 +9,11 @@ class stars {
 
     static update() {
         if (this.stars.length < 100) {
-            this.add_star();
+            // add more stars when the amount of visible stars is lower
+            let amount = 10 - floor(this.stars.length / 10);
+            for (let index = 0; index < amount; index++) {
+                this.add_star();
+            }
         }
     }
 
