@@ -4,11 +4,10 @@ class asteroid extends projectile {
 
         this.size = size;
 
-        let dimensions = 10 * size;
+        this.dimensions = 10 * size;
         this.bounds = {
-            position: this.position,
-            width: dimensions,
-            height: dimensions
+            width: this.dimensions,
+            height: this.dimensions
         };
 
         // set a constant force
@@ -27,6 +26,10 @@ class asteroid extends projectile {
 
         super.update();
         this.rotation_velocity = 0;
+
+        // center the bounds on the texture (rectMode CENTER vs CORNER)
+        let amount = this.dimensions / 2;
+        this.bounds.position = this.position.copy().sub(amount, amount);
 
         if (this.destroyed && !this.split) {
             this.split = true;
