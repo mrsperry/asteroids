@@ -7,6 +7,13 @@ var state = {
 
 class main {
     static setup() {
+        // pause the game when tabbing out
+        window.addEventListener("blur", () => {
+            if (this.state == state.running) {
+                this.state = state.paused;
+            }
+        });
+
         // center of screen coordinates
         this.x = round(width / 2);
         this.y = round(height / 2);
