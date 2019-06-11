@@ -54,6 +54,7 @@ class menu {
 
         // draw the background
         fill(15);
+        stroke(150);
         let bounds = this.background;
         rect(bounds.position.x, 
             bounds.position.y, 
@@ -67,7 +68,6 @@ class menu {
         text(this.title, 
             bounds.position.x + round(bounds.width / 2), 
             y);
-        stroke(150);
         line(bounds.position.x + 10,
             y + 10, 
             bounds.position.x + bounds.width - 10, 
