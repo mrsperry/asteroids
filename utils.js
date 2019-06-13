@@ -34,4 +34,9 @@ class utils {
         }
         return createVector(x, y);
     }
+
+    // adds commas to a number where necessary ex: 1000 -> 1,000
+    static stringify(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 }

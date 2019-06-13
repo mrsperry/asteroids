@@ -5,7 +5,7 @@ class death_menu extends menu {
                 // display the score
                 type: "text",
                 text: () => {
-                    return "Score: " + ship_manager.player.score;
+                    return "Score: " + utils.stringify(ship_manager.player.score);
                 }
             },
             {

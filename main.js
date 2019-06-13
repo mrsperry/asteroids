@@ -125,7 +125,7 @@ function draw() {
         textAlign(CENTER);
         textSize(16);
         text("Hull: " + player.health + "%", -75, 22);
-        text("Score: " + player.score, 75, 22);
+        text("Score: " + utils.stringify(player.score), 75, 22);
         pop();
     }
 
