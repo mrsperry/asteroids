@@ -5,6 +5,9 @@ class ship extends entity {
         this.cooldown = cooldown;
         this.weapon_cooldown = 0;
 
+        this.invincibility = 0;
+        this.hit_detect = 0;
+
         this.speed_particles = [];
         this.trail = [];
 
@@ -18,6 +21,11 @@ class ship extends entity {
     }
 
     update() {
+        // reduce i-frame amount
+        if (this.invincibility != 0) {
+            this.invincibility--;
+        }
+
         // decrement weapon cooldown until it's 0
         if (this.weapon_cooldown > 0) {
             this.weapon_cooldown--;
@@ -60,6 +68,16 @@ class ship extends entity {
                 // draw the bubble
                 circle(bubble.position.x, bubble.position.y, bubble.size);
             }
+
+            // light the ship up if it's recently been hit
+            let offset = 0;
+            if (this.hit_detect != 0) {
+                offset = 100;
+                this.hit_detect--;
+            }
+            color.setRed(red(color) + offset);
+            color.setGreen(green(color) + offset);
+            color.setBlue(blue(color) + offset);
 
             if (main.debug) {
                 push();
@@ -105,6 +123,22 @@ class ship extends entity {
                 laser_type.light,
                 this.position.copy().add(15 * cos(this.rotation.heading()), 15 * sin(this.rotation.heading())), 
                 this.rotation.copy().add(random(-0.025, 0.025), random(-0.025, 0.025)));
+        }
+    }
+
+    change_health(amount) {
+        if (amount < 0) {
+            if (this.invincibility != 0) {
+                return;
+            } else {
+                this.invincibility = 5;
+                this.hit_detect = 10;
+            }
+        }
+        this.health += amount;
+
+        if (this.health <= 0) {
+            this.destroy();
         }
     }
 }
