@@ -2,7 +2,8 @@ class main_menu extends menu {
     constructor() {
         super("Asteroids", [
             {
-                // stars the game
+                // starts the game
+                type: "button",
                 text: "Start Game",
                 on_click: () => {
                     // set the game state to running
@@ -16,6 +17,7 @@ class main_menu extends menu {
             },
             {
                 // link to my website
+                type: "button",
                 text: "Other Games",
                 on_click: () => {
                     window.open("https://mrsperry.github.io");

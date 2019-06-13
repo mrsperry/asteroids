@@ -2,6 +2,8 @@ class paused_menu extends menu {
     constructor() {
         super("Paused", [
             {
+                // unpauses the game
+                type: "button",
                 text: "Continue Game",
                 on_click: () => {
                     // set the game to running
@@ -9,6 +11,8 @@ class paused_menu extends menu {
                 }
             }, 
             {
+                // returns to the main menu
+                type: "button",
                 text: "Main Menu",
                 on_click: () => {
                     main.reset();

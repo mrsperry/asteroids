@@ -25,6 +25,7 @@ class main {
 
         this.main_menu = new main_menu();
         this.paused_menu = new paused_menu();
+        this.death_menu = new death_menu();
 
         this.reset();
     }
@@ -36,10 +37,15 @@ class main {
             ship_manager.update();
         } else if (this.state == state.paused) {
             this.paused_menu.update();
-        } else {
+        } else if (this.state == state.menu) {
             stars.update();
             projectile_manager.update();
             this.main_menu.update();
+        } else {
+            stars.update();
+            projectile_manager.update();
+            ship_manager.update();
+            this.death_menu.update();
         }
 
         // draw the scene
@@ -55,8 +61,11 @@ class main {
         } else if (this.state == state.paused) {
             ship_manager.draw();
             this.paused_menu.draw();
-        } else {
+        } else if (this.state == state.menu) {
             this.main_menu.draw();
+        } else {
+            ship_manager.draw();
+            this.death_menu.draw();
         }
     }
 
@@ -93,6 +102,32 @@ function draw() {
     main.update();
     pop();
 
+    // health and score UI
+    let player = ship_manager.player;
+    if (!player.destroyed && main.state != state.menu) {
+        push();
+        translate(main.x, 0);
+        // draw the background
+        fill(15);
+        noStroke();
+        rect(0, 20, 350, 40);
+        triangle(-175, 40, -175, 0, -200, 0);
+        triangle(175, 40, 175, 0, 200, 0);
+        // draw the background outline
+        stroke(150);
+        line(-175, 40, 175, 40);
+        line(-175, 40, -200, 0);
+        line(175, 40, 200, 0);
+        // draw the text
+        fill(255);
+        noStroke();
+        textAlign(CENTER);
+        textSize(16);
+        text("Hull: " + player.health + "%", -75, 22);
+        text("Score: " + player.score, 75, 22);
+        pop();
+    }
+
     // debug messages
     if (main.debug) {
         stroke(0);
@@ -116,7 +151,7 @@ function keyPressed() {
         main.debug = !main.debug;
 
         // show the cursor when in debug mode or on a menu, hide otherwise
-        if (main.debug || main.state == state.menu || main.state == state.paused) {
+        if (main.debug || main.state != state.running) {
             cursor();
         } else {
             noCursor();
