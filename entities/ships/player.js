@@ -69,7 +69,9 @@ class player extends ship {
     }
 
     change_health(amount) {
-        super.change_health(amount);
+        if (!main.debug) {
+            super.change_health(amount);
+        }
 
         if (amount < 0 && this.invincibility == 0) {
             this.invincibility = 20;
