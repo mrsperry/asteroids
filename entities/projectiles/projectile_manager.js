@@ -37,20 +37,6 @@ class projectile_manager {
                             if (utils.check_collision(ship.bounds, projectile.bounds)) {
                                 projectile.destroy();
 
-                                // add score if a friendly laser hit an enemy
-                                if (projectile.faction == faction.friendly) {
-                                    let type = ship.constructor.name;
-
-                                    // add health and score when killing an enemy ship
-                                    if (type == "corvette") {
-                                        player.change_health(5);
-                                        player.score += 75;
-                                    } else {
-                                        player.change_health(15);
-                                        player.score += 200;
-                                    }
-                                }
-
                                 // damage resolving
                                 let type = projectile.constructor.name;
                                 // default damage for a small asteroid
@@ -75,6 +61,22 @@ class projectile_manager {
 
                                 // damage the ship
                                 ship.change_health(-damage);
+
+                                // add score if a friendly laser destroyed an enemy
+                                if (ship.destroyed) {
+                                    if (projectile.faction == faction.friendly) {
+                                        let type = ship.constructor.name;
+
+                                        // add health and score when killing an enemy ship
+                                        if (type == "corvette") {
+                                            player.change_health(5);
+                                            player.score += 75;
+                                        } else {
+                                            player.change_health(15);
+                                            player.score += 200;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
