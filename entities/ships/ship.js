@@ -68,6 +68,11 @@ class ship extends entity {
                 // draw a line indicating -rotation
                 stroke(255, 0, 0);
                 line(0, 0, -30, 1);
+
+                // draw the ships bounding box
+                stroke(245, 155, 66);
+                noFill();
+                rect(0, 0, this.bounds.width, this.bounds.height);
                 pop();
             }
         }

@@ -50,13 +50,18 @@ class asteroid extends projectile {
     draw() {
         let current_color = color(70, 60, 40);
         if (!this.destroyed) {
-            // create the asteroids path
             if (main.debug) {
+                // create the asteroids path
                 stroke(255, 25);
                 push();
                 translate(this.position.x, this.position.y);
                 rotate(this.velocity.heading());
                 line(0, 0, 500, 0);
+
+                // create the asteroids bounding box
+                stroke(245, 155, 66);
+                noFill();
+                rect(0, 0, this.bounds.width, this.bounds.height);
                 pop();
             }
 
