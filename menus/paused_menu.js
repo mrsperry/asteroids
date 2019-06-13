@@ -6,6 +6,9 @@ class paused_menu extends menu {
                 type: "button",
                 text: "Continue Game",
                 on_click: () => {
+                    if (!main.debug) {
+                        noCursor();
+                    }
                     // set the game to running
                     main.state = state.running;
                 }

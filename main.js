@@ -10,6 +10,7 @@ class main {
         // pause the game when tabbing out
         window.addEventListener("blur", () => {
             if (this.state == state.running) {
+                cursor();
                 this.state = state.paused;
             }
         });
