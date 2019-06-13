@@ -23,30 +23,56 @@ class laser extends projectile {
 
         this.apply_force(this.target.copy().mult(20));
 
-        if (this.destroyed) {
+        if (this.remove) {
             this.remove_instance(projectile_manager.lasers, this);
         }
     }
 
     draw() {
+        let current_color;
         if (this.faction == faction.friendly) {
             // friendly lasers are blue
-            stroke(100, 160, 240);
+            current_color = color(100, 160, 240);
         } else {
             // enemy lasers are red
-            stroke(240, 105, 105);
+            current_color = color(240, 105, 105);
         }
-        noFill();
 
-        push();
-        // go to current location
-        translate(
-            this.position.x + cos(this.target.heading()), 
-            this.position.y + sin(this.target.heading()));
-        // rotate line based on the ship direction
-        rotate(this.target.heading());
-        // draw the laser
-        rect(0, 0, this.bounds.width, this.bounds.height);
-        pop();
+        if (!this.destroyed) {
+            stroke(current_color);
+            noFill();
+
+            push();
+            // go to current location
+            translate(
+                this.position.x + cos(this.target.heading()), 
+                this.position.y + sin(this.target.heading()));
+            // rotate line based on the ship direction
+            rotate(this.target.heading());
+            // draw the laser
+            rect(0, 0, this.bounds.width, this.bounds.height);
+            pop();
+        } else {
+            super.draw(current_color);
+        }
+    }
+
+    destroy() {
+        this.destroyed = true;
+
+        this.explosion = [];
+        for (let index = 0; index < 4; index++) {
+            this.explosion.push({
+                // only circle type
+                type: 0,
+                size: 1,
+                position: this.position.copy(),
+                velocity: createVector(random(-1, 1) , random(-1, 1)),
+                rotation: 0,
+                rotation_velocity: 0,
+                opacity: 255,
+                decay: 5
+            });
+        }
     }
 }
