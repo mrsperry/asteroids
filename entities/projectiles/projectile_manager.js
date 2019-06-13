@@ -18,6 +18,7 @@ class projectile_manager {
     static update() {
         let check_removal = (projectiles) => {
             for (let projectile of projectiles) {
+                let player = ship_manager.player;
                 projectile.update();
 
                 // check if a projectile is out of bounds
@@ -34,18 +35,54 @@ class projectile_manager {
                             if (utils.check_collision(ship.bounds, projectile.bounds)) {
                                 ship.destroy();
                                 projectile.destroy();
+
+                                // add score if a friendly laser hit an enemy
+                                if (projectile.faction == faction.friendly) {
+                                    let type = ship.constructor.name;
+
+                                    // add health and score when killing an enemy ship
+                                    if (type == "corvette") {
+                                        player.change_health(5);
+                                        player.score += 75;
+                                    } else {
+                                        player.change_health(15);
+                                        player.score += 200;
+                                    }
+                                }
                             }
                         }
                     }
                 }
 
                 // check if a projectile hit the player
-                if (projectile.faction == faction.enemy
-                    || projectile.faction == faction.neutral) {
+                if (projectile.faction != faction.friendly) {
                     if (!projectile.destroyed) {
-                        if (utils.check_collision(ship_manager.player.bounds, projectile.bounds)) {
-                            // reset all game objects
-                            main.reset();
+                        if (utils.check_collision(player.bounds, projectile.bounds)) {
+                            // check if the player has i-frames
+                            if (player.invulnerability == 0) {
+                                let amount = 15;
+                                let type = projectile.constructor.name;
+                                if (type == "asteroid") {
+                                    let size = projectile.size;
+                                    // handle asteroid damage
+                                    if (size == 2) {
+                                        amount = 40
+                                    } else {
+                                        amount = 75;
+                                    }
+                                } else if (type == "laser") {
+                                    // handle lasers
+                                    if (projectile.type == "light") {
+                                        amount = 20;
+                                    } else {
+                                        amount = 60;
+                                    }
+                                }
+                                
+                                projectile.destroy();
+                                player.invulnerability = 20;
+                                player.change_health(-amount);
+                            }
                         }
                     }
                 }
@@ -70,6 +107,11 @@ class projectile_manager {
                     if (utils.check_collision(asteroid.bounds, laser.bounds)) {
                         asteroid.destroy();
                         laser.destroy();
+
+                        // add score if the laser belongs to the player
+                        if (laser.faction == faction.friendly) {
+                            ship_manager.player.score += asteroid.size * 10;
+                        }
                     }
                 }
             }
