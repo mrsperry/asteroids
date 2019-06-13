@@ -1,6 +1,6 @@
 class npc extends ship {
-    constructor(faction, weapon_cooldown, position) {
-        super(faction, weapon_cooldown, position);
+    constructor(weapon_cooldown, position) {
+        super(faction.enemy, weapon_cooldown, position);
 
         this.target = this.get_random_location();
     }

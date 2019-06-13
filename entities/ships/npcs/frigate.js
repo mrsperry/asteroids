@@ -1,10 +1,11 @@
 class frigate extends npc {
-    constructor(faction, x, y) {
-        super(faction, round(random(300, 400)), createVector(x, y));
+    constructor(x, y) {
+        super(round(random(300, 400)), createVector(x, y));
 
         this.secondary_cooldown = 0;
         this.tertiary_cooldown = 0;
 
+        this.health = 120;
         this.bounds = {
             width: 50,
             height: 20

@@ -1,7 +1,8 @@
 class corvette extends npc {
-    constructor(faction, x, y) {
-        super(faction, round(random(50, 150)), createVector(x, y));
+    constructor(x, y) {
+        super(round(random(50, 150)), createVector(x, y));
 
+        this.health = 40;
         this.bounds = {
             width: 14,
             height: 14
