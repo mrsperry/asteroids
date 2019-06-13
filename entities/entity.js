@@ -17,12 +17,19 @@ class entity {
         this.rotation_velocity = 0;
 
         this.destroyed = false;
+        this.invincibility = 0;
+        this.hit_detect = 0;
 
         this.explosion = [];
     }
 
     update() {
         if (!this.destroyed) {
+            // reduce i-frame amount
+            if (this.invincibility != 0) {
+                this.invincibility--;
+            }
+
             // update the rotation
             this.rotation.rotate(this.rotation_velocity);
             
@@ -53,7 +60,7 @@ class entity {
         // draw the explosion if there is one
         for (let particle of this.explosion) {
             noStroke();
-            fill(red(color), green(color), blue(color), particle.opacity);
+            fill(red(color), green(color),blue(color), particle.opacity);
 
             // draw the particle
             push();
@@ -71,6 +78,17 @@ class entity {
             }
             pop();
         }
+
+        // light the ship up if it's recently been hit
+        let offset = 0;
+        if (this.hit_detect != 0) {
+            offset = 100;
+            this.hit_detect--;
+        }
+
+        color.setRed(red(color) + offset);
+        color.setGreen(green(color) + offset);
+        color.setBlue(blue(color) + offset);
     }
 
     apply_force(force) {
@@ -82,6 +100,22 @@ class entity {
         this.velocity.limit(this.limit);
         this.position.add(this.velocity);
         this.acceleration.mult(0);
+    }
+
+    change_health(amount) {
+        if (amount < 0) {
+            if (this.invincibility != 0) {
+                return;
+            } else {
+                this.invincibility = 5;
+                this.hit_detect = 10;
+            }
+        }
+        this.health += amount;
+
+        if (this.health <= 0) {
+            this.destroy();
+        }
     }
 
     destroy() {

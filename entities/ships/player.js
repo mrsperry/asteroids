@@ -4,7 +4,6 @@ class player extends ship {
 
         this.health = 100;
         this.score = 0;
-        this.invulnerability = 0;
 
         this.bounds = {
             position: this.position,
@@ -16,11 +15,6 @@ class player extends ship {
     update() {
         super.update();
         if (!this.destroyed) {
-            // reduce i-frame amount
-            if (this.invulnerability != 0) {
-                this.invulnerability--;
-            }
-
             // handle movement
             // left - a
             if (keyIsDown(65)) {
@@ -75,14 +69,15 @@ class player extends ship {
     }
 
     change_health(amount) {
-        this.health += amount;
+        super.change_health(amount);
+
+        if (amount < 0 && this.invincibility == 0) {
+            this.invincibility = 20;
+        }
 
         if (this.health > 100) {
             this.health = 100;
         } else if (this.health <= 0) {
-            this.health = 0;
-            this.destroy();
-
             main.state = state.death;
             cursor();
         }

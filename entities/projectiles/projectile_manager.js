@@ -28,12 +28,13 @@ class projectile_manager {
                     continue;
                 }
 
-                // check if a projectile hit an enemy
-                for (let ship of ship_manager.ships) {
+                // create an array of all ships
+                let array = ship_manager.ships.concat([ship_manager.player]);
+                // check if a projectile hit a ship
+                for (let ship of array) {
                     if (projectile.faction != ship.faction) {
                         if (!ship.destroyed && !projectile.destroyed) {
                             if (utils.check_collision(ship.bounds, projectile.bounds)) {
-                                ship.destroy();
                                 projectile.destroy();
 
                                 // add score if a friendly laser hit an enemy
@@ -49,39 +50,31 @@ class projectile_manager {
                                         player.score += 200;
                                     }
                                 }
-                            }
-                        }
-                    }
-                }
 
-                // check if a projectile hit the player
-                if (projectile.faction != faction.friendly) {
-                    if (!projectile.destroyed) {
-                        if (utils.check_collision(player.bounds, projectile.bounds)) {
-                            // check if the player has i-frames
-                            if (player.invulnerability == 0) {
-                                let amount = 15;
+                                // damage resolving
                                 let type = projectile.constructor.name;
-                                if (type == "asteroid") {
-                                    let size = projectile.size;
-                                    // handle asteroid damage
-                                    if (size == 2) {
-                                        amount = 40
+                                // default damage for a small asteroid
+                                let damage = 15;
+                                if (type == "laser") {
+                                    if (projectile.type == laser_type.light) {
+                                        // light laser damage
+                                        damage = 20;
                                     } else {
-                                        amount = 75;
+                                        // heavy laser damage
+                                        damage = 60;
                                     }
-                                } else if (type == "laser") {
-                                    // handle lasers
-                                    if (projectile.type == "light") {
-                                        amount = 20;
+                                } else {
+                                    if (projectile.size == 1) {
+                                        // medium asteroid damage
+                                        damage = 40;
                                     } else {
-                                        amount = 60;
+                                        // large asteroid damage
+                                        damage = 75;
                                     }
                                 }
-                                
-                                projectile.destroy();
-                                player.invulnerability = 20;
-                                player.change_health(-amount);
+
+                                // damage the ship
+                                ship.change_health(-damage);
                             }
                         }
                     }
